@@ -31,4 +31,10 @@ public class UserController {
     public ResponseEntity login(@RequestBody User user) {
         return userService.login(user);
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @DeleteMapping(path = "/delete/{userId}")
+    public ResponseEntity deleteUser(@PathVariable("userId") Integer id) {
+        return userService.deleteUser(id);
+    }
 }

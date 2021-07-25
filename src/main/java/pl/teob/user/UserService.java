@@ -30,7 +30,6 @@ public class UserService {
     public ResponseEntity addUser(User user){
         Optional<User> userUsernameDB = userRepository.findByUsername(user.getUsername());
         Optional<User> userEmailDB = userRepository.findByEmail(user.getEmail());
-        Matcher matcher;
 
         if(!userUsernameDB.isEmpty() || !userEmailDB.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
@@ -62,5 +61,14 @@ public class UserService {
 
     private boolean wrongPassword(Optional<User> userFromDb, User user) {
         return !userFromDb.get().getPassword().equals(user.getPassword());
+    }
+
+    public ResponseEntity deleteUser(Integer userId) {
+        Optional<User> userIdDB = userRepository.findById(userId);
+        if(userIdDB.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        userRepository.deleteById(userId);
+        return ResponseEntity.ok().build();
     }
 }
