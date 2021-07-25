@@ -1,4 +1,4 @@
-package pl.teob;
+package pl.teob.user;
 
 import lombok.*;
 
