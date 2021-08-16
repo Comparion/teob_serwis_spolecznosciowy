@@ -15,25 +15,29 @@ public class UserConfig {
             User user1 = new User(
                     "damian1",
                     "dam123",
-                    "damian@gmail.com"
+                    "damian@gmail.com",
+                    AppUserRole.USER
             );
 
             User user2 = new User(
                     "patryk",
                     "pat123",
-                    "patryk@o2.pl"
+                    "patryk@o2.pl",
+                    AppUserRole.USER
             );
 
             User user3 = new User(
                     "daniel",
                     "dan123",
-                    "daniel@o2.pl"
+                    "daniel@o2.pl",
+                    AppUserRole.USER
             );
 
             User user4 = new User(
                     "kasia",
                     "kas123",
-                    "kasia@wp.pl"
+                    "kasia@wp.pl",
+                    AppUserRole.USER
             );
 
             userRepository.saveAll(List.of(user1,user2,user3,user4));

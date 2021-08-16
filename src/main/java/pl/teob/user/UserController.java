@@ -21,9 +21,14 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/users")
+    @PostMapping("/registration")
     public ResponseEntity addUser(@RequestBody User user){
         return userService.addUser(user);
+    }
+
+    @GetMapping(path = "/registration/confirm")
+    public String confirm(@RequestParam("token") String token) {
+        return userService.confirmToken(token);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
