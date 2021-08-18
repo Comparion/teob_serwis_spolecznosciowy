@@ -66,7 +66,7 @@ public class UserService implements UserDetailsService {
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         String link = "http://localhost:8080/registration/confirm?token=" + token;
-        emailSender.send(user.getEmail(), buildEmail(user.getUsername(), link));
+        //emailSender.send(user.getEmail(), buildEmail(user.getUsername(), link));
         return ResponseEntity.ok(savedUser);
     }
 
@@ -89,7 +89,7 @@ public class UserService implements UserDetailsService {
         return !userFromDb.get().getPassword().equals(user.getPassword());
     }
 
-    public ResponseEntity deleteUser(Integer userId) {
+    public ResponseEntity deleteUser(Long userId) {
         Optional<User> userIdDB = userRepository.findById(userId);
         if(userIdDB.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

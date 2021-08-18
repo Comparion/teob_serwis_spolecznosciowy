@@ -3,6 +3,7 @@ package pl.teob.user;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,6 +16,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/users")
     public ResponseEntity getUsers() throws JsonProcessingException {
         return userService.getUsers();
@@ -26,6 +28,7 @@ public class UserController {
         return userService.addUser(user);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/registration/confirm")
     public String confirm(@RequestParam("token") String token) {
         return userService.confirmToken(token);
@@ -39,7 +42,8 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping(path = "/delete/{userId}")
-    public ResponseEntity deleteUser(@PathVariable("userId") Integer id) {
+    public ResponseEntity deleteUser(@PathVariable("userId") Long id) {
         return userService.deleteUser(id);
     }
+
 }

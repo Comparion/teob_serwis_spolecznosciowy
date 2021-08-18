@@ -7,8 +7,9 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @ToString
 @Table(name="posts")
@@ -16,11 +17,16 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @NonNull
     private String body;
+    @NonNull
+    private String town;
+    @NonNull
+    private String subject;
     @NonNull
     @ManyToOne
     @JoinColumn(nullable = false, name="users_id")
     private User user;
+
 }

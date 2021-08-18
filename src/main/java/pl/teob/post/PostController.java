@@ -1,11 +1,10 @@
 package pl.teob.post;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PostController {
@@ -16,8 +15,24 @@ public class PostController {
         this.postService = postService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/posts")
-    public ResponseEntity addPost(@RequestHeader("username") String username, @RequestBody String postBody){
-        return postService.addPost(username, postBody);
+    public ResponseEntity addPost(@RequestBody PostDTO postDTO){
+        //final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+        final String currentUserName = "patryk";
+        return postService.addPost(postDTO, currentUserName);
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/getposts")
+    public ResponseEntity getUsers() throws JsonProcessingException {
+        return postService.getPosts();
+
+    }
+//    public ResponseEntity addPost(@RequestHeader("username") String username, @RequestBody String postBody){
+//        return postService.addPost(username, postBody);
+//        final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+//    }
+
+
 }
