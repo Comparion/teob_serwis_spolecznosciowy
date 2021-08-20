@@ -19,6 +19,7 @@ import pl.teob.user.token.ConfirmationTokenService;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -36,6 +37,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    UserDetailRepository userDetailRepository;
+
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
@@ -43,6 +47,41 @@ public class UserService implements UserDetailsService {
     public ResponseEntity getUsers() throws JsonProcessingException {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(objectMapper.writeValueAsString(users));
+    }
+
+    public ResponseEntity addDetailUser(Optional<UserDetailDTO> userDetailDTO, String currentUserName) {
+        Optional<User> userUsernameDB = userRepository.findByUsername(currentUserName);
+        if(userUsernameDB.isEmpty()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        UserDetail userDetail = new UserDetail();
+        userDetail.setUser(userUsernameDB.get());
+
+        // TODO: zabezpieczenie aby użytkownik mógł tylko modyfikowac dane w bazie, a nie dodawac kolejnego rekordu, dodatkowo tylko użytkownik z potwerdzonym emailem może dodać szczegóły o sobie
+
+
+        if(!Objects.isNull(userDetailDTO.get().getFirstName())){
+            userDetail.setFirstName(userDetailDTO.get().getFirstName());
+        }
+        if(!Objects.isNull(userDetailDTO.get().getSecondName())){
+            userDetail.setSecondName(userDetailDTO.get().getSecondName());
+        }
+        if(!Objects.isNull(userDetailDTO.get().getNumberPhone())){
+            userDetail.setNumberPhone(userDetailDTO.get().getNumberPhone());
+        }
+        if(!Objects.isNull(userDetailDTO.get().getInterests())){
+            userDetail.setInterests(userDetailDTO.get().getInterests());
+        }
+        if(!Objects.isNull(userDetailDTO.get().getDescription())){
+            userDetail.setDescription(userDetailDTO.get().getDescription());
+        }
+        if(!Objects.isNull(userDetailDTO.get().getProfilePhotoURL())){
+            userDetail.setProfilePhotoURL(userDetailDTO.get().getProfilePhotoURL());
+        }
+
+        userDetailRepository.save(userDetail);
+
+        return ResponseEntity.ok(userDetail);
     }
 
     public ResponseEntity addUser(User user){

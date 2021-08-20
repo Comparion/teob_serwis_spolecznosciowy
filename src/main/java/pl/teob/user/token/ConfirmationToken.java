@@ -17,7 +17,7 @@ public class ConfirmationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
-    private Long id;
+    private long id;
     @Column(nullable = false)
     private String token;
     @Column(nullable = false)
