@@ -3,7 +3,6 @@ package pl.teob.post;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +21,12 @@ public class PostController {
         final String currentUserName = "patryk";
         return postService.addPost(postDTO, currentUserName);
     }
+
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @PutMapping("/postupdate")
+//    public ResponseEntity updatePost(@RequestBody PostDTO postDTO){
+//        return postService.updatePost(postDTO);
+//    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/getposts")

@@ -31,8 +31,8 @@ public class UserDetailService {
         UserDetail userDetail = new UserDetail();
         userDetail.setUser(userDB.get());
 
-        // TODO: zabezpieczenie aby użytkownik mógł tylko modyfikowac dane w bazie, a nie dodawac kolejnego rekordu, dodatkowo tylko użytkownik z potwerdzonym emailem może dodać szczegóły o sobie
-
+        // TODO: zabezpieczenie aby użytkownik mógł tylko modyfikowac dane w bazie, a nie dodawac kolejnego rekordu
+        // TODO: dodawanie i edycja szczegółów powinna wykonywać się najprawdpoobniej w jendym miesjcu
 
         if(!Objects.isNull(userDetailDTO.get().getFirstName())){
             userDetail.setFirstName(userDetailDTO.get().getFirstName());

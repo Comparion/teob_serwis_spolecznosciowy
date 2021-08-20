@@ -41,7 +41,6 @@ public class PostService {
             return ResponseEntity.status(409).build();
         }
 
-        // TODO: posty może dodawać użytkownik który potwierdził adres emial
         Post newPost = new Post(postDTO.getBody(), postDTO.getTown(), postDTO.getSubject(), userFromDB.get());
         Post savedPost = postRepository.save(newPost);
 
@@ -52,4 +51,13 @@ public class PostService {
         List<Post> posts = postRepository.findAll();
         return ResponseEntity.ok(objectMapper.writeValueAsString(posts));
     }
+
+//    public ResponseEntity updatePost(PostDTO postDTO) {
+//        // TODO: sprawdzenie czy post edytuje wlasciciel
+//
+//        Post savedPost = postRepository.save(postDTO);
+//        return ResponseEntity.ok(savedPost);
+//    }
+
+
 }
