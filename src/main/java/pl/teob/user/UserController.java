@@ -3,11 +3,7 @@ package pl.teob.user;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-
 
 @RestController
 public class UserController {
@@ -30,13 +26,6 @@ public class UserController {
         return userService.addUser(user);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/detail")
-    public ResponseEntity addDetailUser(@RequestBody UserDetailDTO userDetailDTO){
-        //final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-        final String currentUserName = "patryk";
-        return userService.addDetailUser(Optional.ofNullable(userDetailDTO), currentUserName);
-    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/registration/confirm")

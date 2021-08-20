@@ -11,15 +11,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.teob.detail.UserDetailRepository;
 import pl.teob.email.EmailSender;
-import pl.teob.email.EmailService;
 import pl.teob.user.token.ConfirmationToken;
 import pl.teob.user.token.ConfirmationTokenService;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -32,13 +31,13 @@ public class UserService implements UserDetailsService {
     private static final String USER_NOT_FOUND = "User with email %s not found";
 
     @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    UserDetailRepository userDetailRepository;
+    private final UserDetailRepository userDetailRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
@@ -49,40 +48,6 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok(objectMapper.writeValueAsString(users));
     }
 
-    public ResponseEntity addDetailUser(Optional<UserDetailDTO> userDetailDTO, String currentUserName) {
-        Optional<User> userUsernameDB = userRepository.findByUsername(currentUserName);
-        if(userUsernameDB.isEmpty()){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        UserDetail userDetail = new UserDetail();
-        userDetail.setUser(userUsernameDB.get());
-
-        // TODO: zabezpieczenie aby użytkownik mógł tylko modyfikowac dane w bazie, a nie dodawac kolejnego rekordu, dodatkowo tylko użytkownik z potwerdzonym emailem może dodać szczegóły o sobie
-
-
-        if(!Objects.isNull(userDetailDTO.get().getFirstName())){
-            userDetail.setFirstName(userDetailDTO.get().getFirstName());
-        }
-        if(!Objects.isNull(userDetailDTO.get().getSecondName())){
-            userDetail.setSecondName(userDetailDTO.get().getSecondName());
-        }
-        if(!Objects.isNull(userDetailDTO.get().getNumberPhone())){
-            userDetail.setNumberPhone(userDetailDTO.get().getNumberPhone());
-        }
-        if(!Objects.isNull(userDetailDTO.get().getInterests())){
-            userDetail.setInterests(userDetailDTO.get().getInterests());
-        }
-        if(!Objects.isNull(userDetailDTO.get().getDescription())){
-            userDetail.setDescription(userDetailDTO.get().getDescription());
-        }
-        if(!Objects.isNull(userDetailDTO.get().getProfilePhotoURL())){
-            userDetail.setProfilePhotoURL(userDetailDTO.get().getProfilePhotoURL());
-        }
-
-        userDetailRepository.save(userDetail);
-
-        return ResponseEntity.ok(userDetail);
-    }
 
     public ResponseEntity addUser(User user){
         Optional<User> userUsernameDB = userRepository.findByUsername(user.getUsername());

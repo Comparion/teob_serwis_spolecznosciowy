@@ -16,12 +16,19 @@ import java.util.Optional;
 
 @Service
 public class PostService {
+
+    private final PostRepository postRepository;
+
+    private final UserRepository userRepository;
+
+    private final ObjectMapper objectMapper;
+
     @Autowired
-    PostRepository postRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ObjectMapper objectMapper;
+    public PostService(PostRepository postRepository, UserRepository userRepository, ObjectMapper objectMapper) {
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
+        this.objectMapper = objectMapper;
+    }
 
     @PostMapping("/posts")
     public ResponseEntity addPost(PostDTO postDTO, String currentUsername){

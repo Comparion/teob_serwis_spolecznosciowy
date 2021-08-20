@@ -1,6 +1,7 @@
-package pl.teob.user;
+package pl.teob.detail;
 
 import lombok.*;
+import pl.teob.user.User;
 
 import javax.persistence.*;
 

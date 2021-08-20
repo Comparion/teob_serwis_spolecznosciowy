@@ -1,4 +1,4 @@
-package pl.teob.user;
+package pl.teob.detail;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
