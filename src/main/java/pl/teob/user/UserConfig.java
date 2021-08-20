@@ -52,7 +52,7 @@ public class UserConfig {
             User user4 = new User(
                     "kasia",
                     bCryptPasswordEncoder.encode("kas123"),
-                    "kasia@wp.pl",
+                    "kasia@o2.pl",
                     AppUserRole.USER
             );
 
@@ -81,7 +81,7 @@ public class UserConfig {
                     user2
             );
 
-            System.out.println(post2.toString());
+            //System.out.println(post2.toString());
 
             postRepository.saveAll(List.of(post1, post2));
         };

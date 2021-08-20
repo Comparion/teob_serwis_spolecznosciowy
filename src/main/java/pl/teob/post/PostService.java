@@ -37,6 +37,10 @@ public class PostService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
+        if(userFromDB.get().getEnabled() == false){
+            return ResponseEntity.status(409).build();
+        }
+
         // TODO: posty może dodawać użytkownik który potwierdził adres emial
         Post newPost = new Post(postDTO.getBody(), postDTO.getTown(), postDTO.getSubject(), userFromDB.get());
         Post savedPost = postRepository.save(newPost);

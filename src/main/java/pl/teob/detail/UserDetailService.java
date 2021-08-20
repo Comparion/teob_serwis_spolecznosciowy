@@ -19,12 +19,17 @@ public class UserDetailService {
     UserDetailRepository userDetailRepository;
 
     public ResponseEntity addDetailUser(Optional<UserDetailDTO> userDetailDTO, String currentUserName) {
-        Optional<User> userUsernameDB = userRepository.findByUsername(currentUserName);
-        if(userUsernameDB.isEmpty()){
+        Optional<User> userDB = userRepository.findByUsername(currentUserName);
+        if(userDB.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
+        if(userDB.get().getEnabled() == false){
+            return ResponseEntity.status(409).build();
+        }
+
         UserDetail userDetail = new UserDetail();
-        userDetail.setUser(userUsernameDB.get());
+        userDetail.setUser(userDB.get());
 
         // TODO: zabezpieczenie aby użytkownik mógł tylko modyfikowac dane w bazie, a nie dodawac kolejnego rekordu, dodatkowo tylko użytkownik z potwerdzonym emailem może dodać szczegóły o sobie
 
