@@ -13,10 +13,10 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
 //            public void addCorsMappings(CorsRegistry registry) {
 //                registry.addMapping("/users").allowedOrigins("http://localhost:4200");
 //                registry.addMapping("/login").allowedOrigins("http://localhost:4200");
@@ -25,6 +25,9 @@ public class Main {
 //                registry.addMapping("/delete/{userId}").allowedOrigins("http://localhost:4200");
 //                registry.addMapping("/registration/confirm").allowedOrigins("http://localhost:4200");
 //            }
-//        };
-//    }
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**");
+            }
+        };
+    }
 }

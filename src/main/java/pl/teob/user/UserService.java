@@ -82,15 +82,17 @@ public class UserService implements UserDetailsService {
     public ResponseEntity login(User user) {
         Optional<User> userFromDb = userRepository.findByUsername(user.getUsername());
 
-        if (userFromDb.isEmpty() || wrongPassword(userFromDb, user)) {
+        if (userFromDb.isEmpty() || !wrongPassword(userFromDb, user)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.ok().build();
+        //return ResponseEntity.ok().build();
+        return ResponseEntity.ok("ok");
     }
 
     private boolean wrongPassword(Optional<User> userFromDb, User user) {
-        return !userFromDb.get().getPassword().equals(user.getPassword());
+        return bCryptPasswordEncoder.matches(user.getPassword(),userFromDb.get().getPassword());
+
     }
 
     public ResponseEntity deleteUser(Long userId) {
@@ -107,6 +109,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
 
+    //uwaga na tranzkacje
     @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService

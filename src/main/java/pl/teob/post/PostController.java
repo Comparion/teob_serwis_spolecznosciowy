@@ -14,7 +14,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    //@CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/posts")
     public ResponseEntity addPost(@RequestBody PostDTO postDTO){
         //final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -28,7 +28,7 @@ public class PostController {
 //        return postService.updatePost(postDTO);
 //    }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    //@CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/getposts")
     public ResponseEntity getUsers() throws JsonProcessingException {
         return postService.getPosts();

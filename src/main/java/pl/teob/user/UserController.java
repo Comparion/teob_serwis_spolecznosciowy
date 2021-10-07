@@ -14,32 +14,32 @@ public class UserController {
         this.userService = userService;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    //@CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/users")
     public ResponseEntity getUsers() throws JsonProcessingException {
         return userService.getUsers();
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    //@CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/registration")
     public ResponseEntity addUser(@RequestBody User user){
+
         return userService.addUser(user);
     }
 
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    //@CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/registration/confirm")
     public String confirm(@RequestParam("token") String token) {
         return userService.confirmToken(token);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody User user) {
         return userService.login(user);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping(path = "/delete/{userId}")
     public ResponseEntity deleteUser(@PathVariable("userId") Long id) {
         return userService.deleteUser(id);
