@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import pl.teob.detail.UserDetailRepository;
 import pl.teob.email.EmailSender;
 import pl.teob.user.token.ConfirmationToken;
+import pl.teob.user.token.ConfirmationTokenRepository;
 import pl.teob.user.token.ConfirmationTokenService;
 
 import javax.transaction.Transactional;
@@ -35,6 +36,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private final ObjectMapper objectMapper;
+
+    @Autowired
+    private final ConfirmationTokenRepository confirmationTokenRepository;
 
     @Autowired
     private final UserDetailRepository userDetailRepository;
@@ -84,8 +88,8 @@ public class UserService implements UserDetailsService {
 
         if (userFromDb.isEmpty() || !wrongPassword(userFromDb, user)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            //return ResponseEntity.;
         }
-
         //return ResponseEntity.ok().build();
         return ResponseEntity.ok("ok");
     }
@@ -95,12 +99,16 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public ResponseEntity deleteUser(Long userId) {
-        Optional<User> userIdDB = userRepository.findById(userId);
-        if(userIdDB.isEmpty()){
+    public ResponseEntity deleteUser(String username) {
+        Optional<User> userDB = userRepository.findByUsername(username);
+        if(userDB.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        userRepository.deleteById(userId);
+        Optional<ConfirmationToken> tokenDB = confirmationTokenRepository.findByUserId(userDB.get().getId());
+        if(!tokenDB.isEmpty()){
+            confirmationTokenRepository.deleteById(tokenDB.get().getId());
+        }
+        userRepository.deleteById(userDB.get().getId());
         return ResponseEntity.ok().build();
     }
 

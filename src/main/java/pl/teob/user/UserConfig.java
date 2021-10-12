@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import pl.teob.detail.UserDetail;
+import pl.teob.detail.UserDetailRepository;
 import pl.teob.post.Post;
 import pl.teob.post.PostRepository;
 import pl.teob.post.PostService;
@@ -24,6 +26,7 @@ public class UserConfig {
     private final ConfirmationTokenService confirmationTokenService;
     private final UserService userService;
     private final PostRepository postRepository;
+    private final UserDetailRepository userDetailRepository;
 
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository){
@@ -81,9 +84,22 @@ public class UserConfig {
                     user2
             );
 
+            UserDetail userDetail1 = new UserDetail(
+                    1234,
+                    "Patryk",
+                    "Owsiak",
+                    null,
+                    "sport",
+                    "jestem Patryk",
+                    "wwwww.wwwww",
+                    user2
+            );
+
             //System.out.println(post2.toString());
 
             postRepository.saveAll(List.of(post1, post2));
+            userDetailRepository.save(userDetail1);
+
         };
     }
 }

@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,7 @@ public class UserDetail {
     private String interests;
     private String description;
     private String profilePhotoURL;
+    @NonNull
     @ManyToOne
     @JoinColumn(nullable = false, name="users_id")
     private User user;

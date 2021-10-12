@@ -1,11 +1,9 @@
 package pl.teob.detail;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -24,5 +22,10 @@ public class UserDetailController {
         //final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
         final String currentUserName = "patryk";
         return userDetailService.addDetailUser(Optional.ofNullable(userDetailDTO), currentUserName);
+    }
+
+    @GetMapping("/detail/{username}")
+    public ResponseEntity getDetail(@PathVariable("username") String username) throws JsonProcessingException {
+        return userDetailService.getDetail(username);
     }
 }

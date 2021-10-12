@@ -1,17 +1,27 @@
 package pl.teob.detail;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.teob.user.User;
 import pl.teob.user.UserRepository;
+import pl.teob.user.token.ConfirmationToken;
 
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserDetailService {
+
+    @Autowired
+    private final ObjectMapper objectMapper;
+
 
     @Autowired
     UserRepository userRepository;
@@ -56,5 +66,17 @@ public class UserDetailService {
         userDetailRepository.save(userDetail);
 
         return ResponseEntity.ok(userDetail);
+    }
+
+    public ResponseEntity getDetail(String username) throws JsonProcessingException {
+        Optional<User> userDB = userRepository.findByUsername(username);
+        if(userDB.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        Optional<UserDetailDTO> userDetailDB = userDetailRepository.findByUserId(userDB.get().getId());
+        if(userDetailDB.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(objectMapper.writeValueAsString(userDetailDB));
     }
 }

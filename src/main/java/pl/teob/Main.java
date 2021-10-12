@@ -26,7 +26,9 @@ public class Main {
 //                registry.addMapping("/registration/confirm").allowedOrigins("http://localhost:4200");
 //            }
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**");
+                //registry.addMapping("/**");
+                registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("*")
+                        .allowedHeaders("*");
             }
         };
     }
