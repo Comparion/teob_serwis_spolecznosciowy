@@ -73,10 +73,10 @@ public class UserDetailService {
         if(userDB.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        Optional<UserDetailDTO> userDetailDB = userDetailRepository.findByUserId(userDB.get().getId());
+        Optional<UserDetail> userDetailDB = userDetailRepository.findByUserId(userDB.get().getId());
         if(userDetailDB.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(objectMapper.writeValueAsString(userDetailDB));
+        return ResponseEntity.ok(objectMapper.writeValueAsString(UserDetailMapper.userDetailtoDTO(userDetailDB.get())));
     }
 }
