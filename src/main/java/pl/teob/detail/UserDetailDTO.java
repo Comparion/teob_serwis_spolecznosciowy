@@ -10,8 +10,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDetailDTO {
-    private String firstName;
-    private String secondName;
+    private String firstname;
+    private String secondname;
     private Long numberPhone;
     private String interests;
     private String description;

@@ -44,11 +44,11 @@ public class UserDetailService {
         // TODO: zabezpieczenie aby użytkownik mógł tylko modyfikowac dane w bazie, a nie dodawac kolejnego rekordu
         // TODO: dodawanie i edycja szczegółów powinna wykonywać się najprawdpoobniej w jendym miesjcu
 
-        if(!Objects.isNull(userDetailDTO.get().getFirstName())){
-            userDetail.setFirstName(userDetailDTO.get().getFirstName());
+        if(!Objects.isNull(userDetailDTO.get().getFirstname())){
+            userDetail.setFirstName(userDetailDTO.get().getFirstname());
         }
-        if(!Objects.isNull(userDetailDTO.get().getSecondName())){
-            userDetail.setSecondName(userDetailDTO.get().getSecondName());
+        if(!Objects.isNull(userDetailDTO.get().getSecondname())){
+            userDetail.setSecondName(userDetailDTO.get().getSecondname());
         }
         if(!Objects.isNull(userDetailDTO.get().getNumberPhone())){
             userDetail.setNumberPhone(userDetailDTO.get().getNumberPhone());

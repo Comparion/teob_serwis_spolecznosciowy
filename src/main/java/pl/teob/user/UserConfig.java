@@ -91,7 +91,7 @@ public class UserConfig {
                     null,
                     "sport",
                     "jestem Patryk",
-                    "wwwww.wwwww",
+                    "https://www.lego.com/cdn/cs/set/assets/blt81f6da976343c245/Hulk-Sidekick-Tall-1.jpg?fit=crop&format=jpg&quality=80&width=800&height=600&dpr=1",
                     user2
             );
 

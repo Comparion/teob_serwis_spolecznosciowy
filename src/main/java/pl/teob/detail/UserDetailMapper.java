@@ -4,8 +4,8 @@ public class UserDetailMapper {
 
     public static UserDetailDTO userDetailtoDTO(UserDetail userDetail){
         return UserDetailDTO.builder()
-                .firstName(userDetail.getFirstName())
-                .secondName(userDetail.getSecondName())
+                .firstname(userDetail.getFirstName())
+                .secondname(userDetail.getSecondName())
                 .numberPhone(userDetail.getNumberPhone())
                 .interests(userDetail.getInterests())
                 .description(userDetail.getDescription())
