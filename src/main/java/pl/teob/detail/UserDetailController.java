@@ -28,4 +28,9 @@ public class UserDetailController {
     public ResponseEntity getDetail(@PathVariable("username") String username) throws JsonProcessingException {
         return userDetailService.getDetail(username);
     }
+
+    @PutMapping("/updatedetail/{username}")
+    public ResponseEntity updateDetailUser(@PathVariable("username") String username, @RequestBody UserDetailDTO userDetailDTO){
+        return userDetailService.updateDetailUser(Optional.ofNullable(userDetailDTO), username);
+    }
 }

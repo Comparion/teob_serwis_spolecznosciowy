@@ -44,11 +44,11 @@ public class UserDetailService {
         // TODO: zabezpieczenie aby użytkownik mógł tylko modyfikowac dane w bazie, a nie dodawac kolejnego rekordu
         // TODO: dodawanie i edycja szczegółów powinna wykonywać się najprawdpoobniej w jendym miesjcu
 
-        if(!Objects.isNull(userDetailDTO.get().getFirstname())){
-            userDetail.setFirstName(userDetailDTO.get().getFirstname());
+        if(!Objects.isNull(userDetailDTO.get().getFirstName())){
+            userDetail.setFirstName(userDetailDTO.get().getFirstName());
         }
-        if(!Objects.isNull(userDetailDTO.get().getSecondname())){
-            userDetail.setSecondName(userDetailDTO.get().getSecondname());
+        if(!Objects.isNull(userDetailDTO.get().getSecondName())){
+            userDetail.setSecondName(userDetailDTO.get().getSecondName());
         }
         if(!Objects.isNull(userDetailDTO.get().getNumberPhone())){
             userDetail.setNumberPhone(userDetailDTO.get().getNumberPhone());
@@ -66,6 +66,50 @@ public class UserDetailService {
         userDetailRepository.save(userDetail);
 
         return ResponseEntity.ok(userDetail);
+    }
+
+    public ResponseEntity updateDetailUser(Optional<UserDetailDTO> userDetailDTO, String username) {
+        Optional<User> userDB = userRepository.findByUsername(username);
+        if(userDB.isEmpty()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if(userDB.get().getEnabled() == false){
+            return ResponseEntity.status(409).build();
+        }
+
+        Optional<UserDetail> userDetailDB = userDetailRepository.findByUserId(userDB.get().getId());
+        if(userDetailDB.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+
+//        if(!Objects.isNull(userDetailDTO.get().getFirstname())){
+//            userDetailDB.get().setFirstName(userDetailDTO.get().getFirstname());
+//        }
+//        if(!Objects.isNull(userDetailDTO.get().getSecondname())){
+//            userDetailDB.get().setSecondName(userDetailDTO.get().getSecondname());
+//        }
+//        if(!Objects.isNull(userDetailDTO.get().getNumberPhone())){
+//            userDetailDB.get().setNumberPhone(userDetailDTO.get().getNumberPhone());
+//        }
+//        if(!Objects.isNull(userDetailDTO.get().getInterests())){
+//            userDetailDB.get().setInterests(userDetailDTO.get().getInterests());
+//        }
+//        if(!Objects.isNull(userDetailDTO.get().getDescription())){
+//            userDetailDB.get().setDescription(userDetailDTO.get().getDescription());
+//        }
+//        if(!Objects.isNull(userDetailDTO.get().getProfilePhotoURL())){
+//            userDetailDB.get().setProfilePhotoURL(userDetailDTO.get().getProfilePhotoURL());
+//        }
+//
+//        userDetailRepository.save(userDetailDB);
+
+        userDetailRepository.updateUserDetailById(userDetailDTO.get().getFirstName(),userDetailDTO.get().getSecondName(),userDetailDTO.get().getNumberPhone(),userDetailDTO.get().getInterests(),userDetailDTO.get().getDescription(),userDetailDTO.get().getProfilePhotoURL(),userDetailDB.get().getId());
+        //userDetailRepository.updateUserDetailById(userDetailDTO.get().getFirstName(),userDetailDTO.get().getProfilePhotoURL(), userDetailDTO.get().getSecondName(), userDetailDB.get().getId());
+
+
+        return ResponseEntity.ok("ok");
     }
 
     public ResponseEntity getDetail(String username) throws JsonProcessingException {

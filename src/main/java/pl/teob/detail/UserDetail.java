@@ -12,6 +12,15 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+//@Entity
+//@Table(name = "user_detail")
+//@Getter
+//@Setter
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@RequiredArgsConstructor
+//@EqualsAndHashCode
+//@ToString
 public class UserDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
