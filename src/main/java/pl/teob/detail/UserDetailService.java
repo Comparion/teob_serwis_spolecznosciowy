@@ -84,26 +84,26 @@ public class UserDetailService {
         }
 
 
-//        if(!Objects.isNull(userDetailDTO.get().getFirstname())){
-//            userDetailDB.get().setFirstName(userDetailDTO.get().getFirstname());
-//        }
-//        if(!Objects.isNull(userDetailDTO.get().getSecondname())){
-//            userDetailDB.get().setSecondName(userDetailDTO.get().getSecondname());
-//        }
-//        if(!Objects.isNull(userDetailDTO.get().getNumberPhone())){
-//            userDetailDB.get().setNumberPhone(userDetailDTO.get().getNumberPhone());
-//        }
-//        if(!Objects.isNull(userDetailDTO.get().getInterests())){
-//            userDetailDB.get().setInterests(userDetailDTO.get().getInterests());
-//        }
-//        if(!Objects.isNull(userDetailDTO.get().getDescription())){
-//            userDetailDB.get().setDescription(userDetailDTO.get().getDescription());
-//        }
-//        if(!Objects.isNull(userDetailDTO.get().getProfilePhotoURL())){
-//            userDetailDB.get().setProfilePhotoURL(userDetailDTO.get().getProfilePhotoURL());
-//        }
-//
-//        userDetailRepository.save(userDetailDB);
+        if(!Objects.isNull(userDetailDTO.get().getFirstName())){
+            userDetailDB.get().setFirstName("");
+        }
+        if(!Objects.isNull(userDetailDTO.get().getSecondName())){
+            userDetailDB.get().setSecondName("");
+        }
+        if(!Objects.isNull(userDetailDTO.get().getNumberPhone())){
+            userDetailDB.get().setNumberPhone("");
+        }
+        if(!Objects.isNull(userDetailDTO.get().getInterests())){
+            userDetailDB.get().setInterests("");
+        }
+        if(!Objects.isNull(userDetailDTO.get().getDescription())){
+            userDetailDB.get().setDescription("");
+        }
+        if(!Objects.isNull(userDetailDTO.get().getProfilePhotoURL())){
+            userDetailDB.get().setProfilePhotoURL("");
+        }
+
+        //userDetailRepository.save(userDetailDB);
 
         userDetailRepository.updateUserDetailById(userDetailDTO.get().getFirstName(),userDetailDTO.get().getSecondName(),userDetailDTO.get().getNumberPhone(),userDetailDTO.get().getInterests(),userDetailDTO.get().getDescription(),userDetailDTO.get().getProfilePhotoURL(),userDetailDB.get().getId());
         //userDetailRepository.updateUserDetailById(userDetailDTO.get().getFirstName(),userDetailDTO.get().getProfilePhotoURL(), userDetailDTO.get().getSecondName(), userDetailDB.get().getId());

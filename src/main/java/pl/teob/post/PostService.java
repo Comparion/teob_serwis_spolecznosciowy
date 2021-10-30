@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pl.teob.user.User;
 import pl.teob.user.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,12 @@ public class PostService {
 
     public ResponseEntity getPosts() throws JsonProcessingException {
         List<Post> posts = postRepository.findAll();
-        return ResponseEntity.ok(objectMapper.writeValueAsString(posts));
+        List<PostDTO> postDTOs = new ArrayList<>();
+
+        for(Post post: posts){
+            postDTOs.add(PostMapper.PostToPostDTO(post));
+        }
+        return ResponseEntity.ok(objectMapper.writeValueAsString(postDTOs));
     }
 
 //    public ResponseEntity updatePost(PostDTO postDTO) {

@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class UserDetailDTO {
     private String firstName;
     private String secondName;
-    private Long numberPhone;
+    private String numberPhone;
     private String interests;
     private String description;
     private String profilePhotoURL;

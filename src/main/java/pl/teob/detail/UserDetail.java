@@ -27,7 +27,7 @@ public class UserDetail {
     private long id;
     private String firstName;
     private String secondName;
-    private Long numberPhone;
+    private String numberPhone;
     private String interests;
     private String description;
     private String profilePhotoURL;

@@ -1,15 +1,14 @@
 package pl.teob.post;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class PostDTO {
+    private String username;
     private String body;
     private String town;
     private String subject;

@@ -15,5 +15,5 @@ public interface UserDetailRepository extends JpaRepository<UserDetail, Long> {
     @Transactional
     @Modifying
     @Query("update UserDetail u set u.firstName = ?1, u.secondName = ?2, u.numberPhone = ?3, u.interests = ?4, u.description = ?5, u.profilePhotoURL = ?6 where u.id = ?7")
-    int updateUserDetailById(String firstname, String second_name, long number_phone, String interests, String description, String profile_photourl, long id);
+    int updateUserDetailById(String firstname, String second_name, String number_phone, String interests, String description, String profile_photourl, long id);
 }

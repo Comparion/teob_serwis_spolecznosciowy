@@ -84,6 +84,13 @@ public class UserConfig {
                     user2
             );
 
+            Post post3 = new Post(
+                    "Tym razem szachy",
+                    "Kielce",
+                    "szachy",
+                    user2
+            );
+
             UserDetail userDetail1 = new UserDetail(
                     1234,
                     "Patryk",
@@ -97,7 +104,7 @@ public class UserConfig {
 
             //System.out.println(post2.toString());
 
-            postRepository.saveAll(List.of(post1, post2));
+            postRepository.saveAll(List.of(post1, post2, post3));
             userDetailRepository.save(userDetail1);
 
         };
