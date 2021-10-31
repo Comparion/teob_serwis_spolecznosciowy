@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.teob.detail.UserDetail;
 import pl.teob.detail.UserDetailRepository;
 import pl.teob.email.EmailSender;
 import pl.teob.user.token.ConfirmationToken;
@@ -65,6 +66,7 @@ public class UserService implements UserDetailsService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
+
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setAppUserRole(AppUserRole.USER);
@@ -74,6 +76,16 @@ public class UserService implements UserDetailsService {
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         String link = "http://localhost:8080/registration/confirm?token=" + token;
+        UserDetail userDetail = new UserDetail(
+                123,
+                "",
+                "",
+                "",
+                "",
+                "",
+                "https://ocdn.eu/pulscms-transforms/1/OkBk9kqTURBXy9lMDg4NjY3NWNhNWQzNTI2MzY5MDhlOGEyOGVlYzllMy5qcGVnkZUCzQMUAMLDgaEwBQ",
+                user);
+        userDetailRepository.save(userDetail);
         //emailSender.send(user.getEmail(), buildEmail(user.getUsername(), link));
         return ResponseEntity.ok(savedUser);
     }

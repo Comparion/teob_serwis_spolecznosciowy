@@ -32,8 +32,8 @@ public class PostService {
     }
 
     @PostMapping("/posts")
-    public ResponseEntity addPost(PostDTO postDTO, String currentUsername){
-        Optional<User> userFromDB =  userRepository.findByUsername(currentUsername);
+    public ResponseEntity addPost(PostDTO postDTO){
+        Optional<User> userFromDB =  userRepository.findByUsername(postDTO.getUsername());
         if(userFromDB.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -45,7 +45,7 @@ public class PostService {
         Post newPost = new Post(postDTO.getBody(), postDTO.getTown(), postDTO.getSubject(), userFromDB.get());
         Post savedPost = postRepository.save(newPost);
 
-        return ResponseEntity.ok(savedPost);
+        return ResponseEntity.ok("ok");
     }
 
     public ResponseEntity getPosts() throws JsonProcessingException {

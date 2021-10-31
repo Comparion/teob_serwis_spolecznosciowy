@@ -18,8 +18,8 @@ public class PostController {
     @PostMapping("/posts")
     public ResponseEntity addPost(@RequestBody PostDTO postDTO){
         //final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-        final String currentUserName = "patryk";
-        return postService.addPost(postDTO, currentUserName);
+        //final String currentUserName = "patryk";
+        return postService.addPost(postDTO);
     }
 
 //    @CrossOrigin(origins = "http://localhost:4200")
