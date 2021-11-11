@@ -87,7 +87,7 @@ public class UserService implements UserDetailsService {
                 user);
         userDetailRepository.save(userDetail);
         //emailSender.send(user.getEmail(), buildEmail(user.getUsername(), link));
-        return ResponseEntity.ok(savedUser);
+        return ResponseEntity.ok("ok");
     }
 
     public static boolean validate(String emailStr) {

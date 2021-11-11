@@ -29,9 +29,16 @@ public class PostController {
 //    }
 
     //@CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/getposts")
-    public ResponseEntity getUsers() throws JsonProcessingException {
-        return postService.getPosts();
+//    @GetMapping("/getposts")
+//    public ResponseEntity getPosts() throws JsonProcessingException {
+//        return postService.getPosts();
+//
+//    }
+
+    @GetMapping("/posts")
+    public ResponseEntity getPosts(@RequestParam(value = "town", required=false) String town, @RequestParam(value = "subject", required=false) String subject) throws JsonProcessingException {
+        //String subject = "elo";
+        return postService.getPosts(town, subject);
 
     }
 //    public ResponseEntity addPost(@RequestHeader("username") String username, @RequestBody String postBody){

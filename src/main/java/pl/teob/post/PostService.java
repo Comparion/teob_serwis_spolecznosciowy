@@ -4,10 +4,12 @@ package pl.teob.post;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.w3c.dom.Node;
 import pl.teob.user.User;
 import pl.teob.user.UserRepository;
 
@@ -48,13 +50,34 @@ public class PostService {
         return ResponseEntity.ok("ok");
     }
 
-    public ResponseEntity getPosts() throws JsonProcessingException {
+//    public ResponseEntity getPosts() throws JsonProcessingException {
+//        List<Post> posts = postRepository.findAll();
+//        List<PostDTO> postDTOs = new ArrayList<>();
+//
+//        for(Post post: posts){
+//            postDTOs.add(PostMapper.PostToPostDTO(post));
+//        }
+//        return ResponseEntity.ok(objectMapper.writeValueAsString(postDTOs));
+//    }
+
+    public ResponseEntity getPosts(String town, String subject) throws JsonProcessingException {
         List<Post> posts = postRepository.findAll();
         List<PostDTO> postDTOs = new ArrayList<>();
 
-        for(Post post: posts){
-            postDTOs.add(PostMapper.PostToPostDTO(post));
+        for (Post post : posts) {
+            if (town != null && subject != null) {
+                if (post.getTown().equalsIgnoreCase(town) && post.getSubject().equalsIgnoreCase(subject))
+                    postDTOs.add(PostMapper.PostToPostDTO(post));
+            } else if (town != null) {
+                if (post.getTown().equalsIgnoreCase(town))
+                    postDTOs.add(PostMapper.PostToPostDTO(post));
+            } else if (subject != null) {
+                if (post.getSubject().equalsIgnoreCase(subject))
+                    postDTOs.add(PostMapper.PostToPostDTO(post));
+            } else
+                postDTOs.add(PostMapper.PostToPostDTO(post));
         }
+
         return ResponseEntity.ok(objectMapper.writeValueAsString(postDTOs));
     }
 
