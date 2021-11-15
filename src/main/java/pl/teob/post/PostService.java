@@ -4,12 +4,10 @@ package pl.teob.post;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.w3c.dom.Node;
 import pl.teob.user.User;
 import pl.teob.user.UserRepository;
 
@@ -33,7 +31,6 @@ public class PostService {
         this.objectMapper = objectMapper;
     }
 
-    @PostMapping("/posts")
     public ResponseEntity addPost(PostDTO postDTO){
         Optional<User> userFromDB =  userRepository.findByUsername(postDTO.getUsername());
         if(userFromDB.isEmpty()){
