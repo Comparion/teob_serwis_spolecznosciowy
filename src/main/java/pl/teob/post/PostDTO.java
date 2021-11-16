@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class PostDTO {
     private long id;
+    private long interests;
     private String username;
     private String body;
     private String town;

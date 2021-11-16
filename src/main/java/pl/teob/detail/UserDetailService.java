@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import pl.teob.post.Post;
+import pl.teob.post.PostDTO;
+import pl.teob.post.PostMapper;
 import pl.teob.user.User;
 import pl.teob.user.UserRepository;
 import pl.teob.user.token.ConfirmationToken;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -122,5 +124,32 @@ public class UserDetailService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(objectMapper.writeValueAsString(UserDetailMapper.userDetailtoDTO(userDetailDB.get())));
+    }
+
+    public ResponseEntity findUsers(String firstName, String secondName, String username) throws JsonProcessingException {
+        List<UserDetail> userDetails;
+
+        if(username != null){
+            userDetails = userDetailRepository.findByUserUsernameIgnoreCaseContaining(username);
+        } else {
+            userDetails = userDetailRepository.findAll();
+        }
+
+        List<UserDetailDTO> userDetailDTOS = new ArrayList<>();
+        for (UserDetail userDetail : userDetails) {
+            if (firstName != null && secondName != null) {
+                if (userDetail.getFirstName().toLowerCase().contains(firstName.toLowerCase()) && userDetail.getSecondName().toLowerCase().contains(secondName.toLowerCase()))
+                    userDetailDTOS.add(UserDetailMapper.userDetailtoDTO(userDetail));
+            } else if (firstName != null) {
+                if (userDetail.getFirstName().toLowerCase().contains(firstName.toLowerCase()))
+                    userDetailDTOS.add(UserDetailMapper.userDetailtoDTO(userDetail));
+            } else if (secondName != null) {
+                if (userDetail.getSecondName().toLowerCase().contains(secondName.toLowerCase()))
+                    userDetailDTOS.add(UserDetailMapper.userDetailtoDTO(userDetail));
+            } else
+                userDetailDTOS.add(UserDetailMapper.userDetailtoDTO(userDetail));
+        }
+
+        return ResponseEntity.ok(objectMapper.writeValueAsString(userDetailDTOS));
     }
 }

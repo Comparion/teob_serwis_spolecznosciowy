@@ -10,6 +10,7 @@ public class UserDetailMapper {
                 .interests(userDetail.getInterests())
                 .description(userDetail.getDescription())
                 .profilePhotoURL(userDetail.getProfilePhotoURL())
+                .username(userDetail.getUser().getUsername())
                 .build();
     }
 }

@@ -11,6 +11,7 @@ import pl.teob.post.PostRepository;
 import pl.teob.user.User;
 import pl.teob.user.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -66,4 +67,8 @@ public class InterestService {
 
     }
 
+    public ResponseEntity getInterests(long idPost) {
+        List<Interest> interests= interestRepository.findAllByPostId(idPost);
+        return ResponseEntity.ok("ok");
+    }
 }

@@ -37,10 +37,10 @@ public class PostController {
 
     @GetMapping("/posts")
     public ResponseEntity getPosts(@RequestParam(value = "town", required=false) String town, @RequestParam(value = "subject", required=false) String subject) throws JsonProcessingException {
-        //String subject = "elo";
         return postService.getPosts(town, subject);
 
     }
+
 //    public ResponseEntity addPost(@RequestHeader("username") String username, @RequestBody String postBody){
 //        return postService.addPost(username, postBody);
 //        final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();

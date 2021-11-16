@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.teob.detail.UserDetail;
 import pl.teob.detail.UserDetailRepository;
+import pl.teob.interest.Interest;
+import pl.teob.interest.InterestRepository;
 import pl.teob.post.Post;
 import pl.teob.post.PostRepository;
 import pl.teob.post.PostService;
@@ -27,6 +29,7 @@ public class UserConfig {
     private final UserService userService;
     private final PostRepository postRepository;
     private final UserDetailRepository userDetailRepository;
+    private final InterestRepository interestRepository;
 
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository){
@@ -59,7 +62,14 @@ public class UserConfig {
                     AppUserRole.USER
             );
 
-            userRepository.saveAll(List.of(user1,user2,user3,user4));
+            User user5 = new User(
+                    "danio",
+                    bCryptPasswordEncoder.encode("dan123"),
+                    "daniel12@o2.pl",
+                    AppUserRole.USER
+            );
+
+            userRepository.saveAll(List.of(user1,user2,user3,user4, user5));
             String token = UUID.randomUUID().toString();
             ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user2);
             confirmationTokenService.saveConfirmationToken(confirmationToken);
@@ -91,10 +101,24 @@ public class UserConfig {
                     user2
             );
 
+            Post post4 = new Post(
+                    "Może ktoś chętny na wyjazd do Zakopanego?",
+                    "Warszawa",
+                    "wycieczka",
+                    user3
+            );
+
+            Post post5 = new Post(
+                    "Poszukuje kogoś kto nauczy mnie tańczyć.",
+                    "Kielce",
+                    "Taniec",
+                    user4
+            );
+
             UserDetail userDetail1 = new UserDetail(
-                    1234,
+                    12,
                     "Patryk",
-                    "Owsiak",
+                    "Banan",
                     null,
                     "sport",
                     "jestem Patryk",
@@ -102,10 +126,63 @@ public class UserConfig {
                     user2
             );
 
+            UserDetail userDetail2 = new UserDetail(
+                    123,
+                    "Daniel",
+                    "Owsiak",
+                    "888777666",
+                    "Warcaby",
+                    "jestem Daniel",
+                    "",
+                    user3
+            );
+
+            UserDetail userDetail3 = new UserDetail(
+                    1234,
+                    "Daniel",
+                    "Student",
+                    "888666555",
+                    "Piłka",
+                    "jestem Daniel",
+                    "https://www.focus.pl/media/cache/big/uploads/media/default/0001/29/madry-jak-kura.jpeg",
+                    user5
+            );
+
+            UserDetail userDetail4 = new UserDetail(
+                    1234,
+                    "Kasia",
+                    "Owsiak",
+                    "8886655",
+                    "Taniec, Kino",
+                    "Lubie balet",
+                    "",
+                    user4
+            );
+
             //System.out.println(post2.toString());
 
-            postRepository.saveAll(List.of(post1, post2, post3));
-            userDetailRepository.save(userDetail1);
+            postRepository.saveAll(List.of(post1, post2, post3, post4, post5));
+            userDetailRepository.saveAll(List.of(userDetail1, userDetail2, userDetail3, userDetail4));
+
+
+            Interest interest1 = new Interest(
+                    12,
+                    post1,
+                    user2
+            );
+            Interest interest2 = new Interest(
+                    13,
+                    post2,
+                    user2
+            );
+
+            Interest interest3 = new Interest(
+                    14,
+                    post1,
+                    user3
+            );
+
+            interestRepository.saveAll(List.of(interest1,interest2, interest3));
 
         };
     }

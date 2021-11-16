@@ -24,6 +24,12 @@ public class UserDetailController {
         return userDetailService.addDetailUser(Optional.ofNullable(userDetailDTO), currentUserName);
     }
 
+    @GetMapping("/finduser")
+    public ResponseEntity findUsers(@RequestParam(value = "firstname", required=false) String firstName, @RequestParam(value = "secondname", required=false) String secondName, @RequestParam(value = "username", required=false) String username) throws JsonProcessingException {
+        return userDetailService.findUsers(firstName,secondName,username);
+    }
+
+
     @GetMapping("/detail/{username}")
     public ResponseEntity getDetail(@PathVariable("username") String username) throws JsonProcessingException {
         return userDetailService.getDetail(username);

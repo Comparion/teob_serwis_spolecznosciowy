@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.teob.interest.InterestRepository;
 import pl.teob.user.User;
 import pl.teob.user.UserRepository;
 
@@ -22,12 +23,15 @@ public class PostService {
 
     private final UserRepository userRepository;
 
+    private final InterestRepository interestRepository;
+
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public PostService(PostRepository postRepository, UserRepository userRepository, ObjectMapper objectMapper) {
+    public PostService(PostRepository postRepository, UserRepository userRepository,InterestRepository interestRepository ,ObjectMapper objectMapper) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.interestRepository = interestRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -60,19 +64,20 @@ public class PostService {
     public ResponseEntity getPosts(String town, String subject) throws JsonProcessingException {
         List<Post> posts = postRepository.findAll();
         List<PostDTO> postDTOs = new ArrayList<>();
-
+        int countInterests = 0;
         for (Post post : posts) {
+            countInterests = interestRepository.countByPostId(post.getId());
             if (town != null && subject != null) {
                 if (post.getTown().equalsIgnoreCase(town) && post.getSubject().equalsIgnoreCase(subject))
-                    postDTOs.add(PostMapper.PostToPostDTO(post));
+                    postDTOs.add(PostMapper.PostToPostDTO(post, countInterests));
             } else if (town != null) {
                 if (post.getTown().equalsIgnoreCase(town))
-                    postDTOs.add(PostMapper.PostToPostDTO(post));
+                    postDTOs.add(PostMapper.PostToPostDTO(post, countInterests));
             } else if (subject != null) {
                 if (post.getSubject().equalsIgnoreCase(subject))
-                    postDTOs.add(PostMapper.PostToPostDTO(post));
+                    postDTOs.add(PostMapper.PostToPostDTO(post, countInterests));
             } else
-                postDTOs.add(PostMapper.PostToPostDTO(post));
+                postDTOs.add(PostMapper.PostToPostDTO(post, countInterests));
         }
 
         return ResponseEntity.ok(objectMapper.writeValueAsString(postDTOs));

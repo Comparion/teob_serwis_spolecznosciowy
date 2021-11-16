@@ -16,4 +16,5 @@ public class UserDetailDTO {
     private String interests;
     private String description;
     private String profilePhotoURL;
+    private String username;
 }
