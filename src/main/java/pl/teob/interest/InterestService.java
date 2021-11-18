@@ -1,16 +1,20 @@
 package pl.teob.interest;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import pl.teob.detail.UserDetail;
+import pl.teob.detail.UserDetailRepository;
 import pl.teob.post.Post;
 import pl.teob.post.PostRepository;
 import pl.teob.user.User;
 import pl.teob.user.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,13 +27,16 @@ public class InterestService {
 
     private final InterestRepository interestRepository;
 
+    private final UserDetailRepository userDetailRepository;
+
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public InterestService(PostRepository postRepository, UserRepository userRepository, InterestRepository interestRepository, ObjectMapper objectMapper) {
+    public InterestService(PostRepository postRepository, UserRepository userRepository, InterestRepository interestRepository, UserDetailRepository userDetailRepository, ObjectMapper objectMapper) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.interestRepository = interestRepository;
+        this.userDetailRepository = userDetailRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -67,8 +74,12 @@ public class InterestService {
 
     }
 
-    public ResponseEntity getInterests(long idPost) {
+    public ResponseEntity getInterests(long idPost) throws JsonProcessingException {
         List<Interest> interests= interestRepository.findAllByPostId(idPost);
-        return ResponseEntity.ok("ok");
+        List<InterestDTO> interestDTOs = new ArrayList<>();
+        for(Interest interest: interests){
+            interestDTOs.add(InterestMapper.InterestToInterestDTO(interest, userDetailRepository.findByUserUsername(interest.getUser().getUsername())));
+        }
+        return ResponseEntity.ok(objectMapper.writeValueAsString(interestDTOs));
     }
 }

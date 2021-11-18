@@ -21,7 +21,7 @@ public class InterestController {
     }
 
     @GetMapping("/getinterests")
-    public ResponseEntity getInterests(@RequestParam(value = "id") long idPost) throws JsonProcessingException {
+    public ResponseEntity getInterests(@RequestParam(value = "idPost") long idPost) throws JsonProcessingException {
         return interestService.getInterests(idPost);
 
     }

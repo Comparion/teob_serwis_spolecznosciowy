@@ -16,6 +16,7 @@ import pl.teob.user.User;
 import pl.teob.user.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,7 +95,7 @@ public class PostService {
             } else
                 postDTOs.add(PostMapper.PostToPostDTO(post, countInterests, interestUser));
         }
-
+        Collections.reverse(postDTOs);
         return ResponseEntity.ok(objectMapper.writeValueAsString(postDTOs));
     }
 

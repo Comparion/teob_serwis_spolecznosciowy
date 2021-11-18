@@ -10,4 +10,6 @@ import lombok.*;
 public class InterestDTO {
     private long idPost;
     private String username;
+    private String firstName;
+    private String secondName;
 }

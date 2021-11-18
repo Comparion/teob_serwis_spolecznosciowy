@@ -133,7 +133,7 @@ public class UserConfig {
                     "888777666",
                     "Warcaby",
                     "jestem Daniel",
-                    "",
+                    "https://bi.im-g.pl/im/e3/12/14/z21048035IBG.jpg",
                     user3
             );
 
@@ -155,7 +155,7 @@ public class UserConfig {
                     "8886655",
                     "Taniec, Kino",
                     "Lubie balet",
-                    "",
+                    "https://i.wpimg.pl/730x0/m.fotoblogia.pl/pexels-photo-227691-12768d02fe73.jpg",
                     user4
             );
 
