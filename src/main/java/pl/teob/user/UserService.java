@@ -14,10 +14,15 @@ import org.springframework.stereotype.Service;
 import pl.teob.detail.UserDetail;
 import pl.teob.detail.UserDetailRepository;
 import pl.teob.email.EmailSender;
+import pl.teob.interest.Interest;
+import pl.teob.interest.InterestRepository;
+import pl.teob.post.Post;
+import pl.teob.post.PostRepository;
 import pl.teob.user.token.ConfirmationToken;
 import pl.teob.user.token.ConfirmationTokenRepository;
 import pl.teob.user.token.ConfirmationTokenService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,6 +48,12 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private final UserDetailRepository userDetailRepository;
+
+    @Autowired
+    private final PostRepository postRepository;
+
+    @Autowired
+    private final InterestRepository interestRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
@@ -70,12 +81,13 @@ public class UserService implements UserDetailsService {
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setAppUserRole(AppUserRole.USER);
+        user.setEnabled(true);
 
         User savedUser = userRepository.save(user);
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-        String link = "http://localhost:8080/registration/confirm?token=" + token;
+        ///String token = UUID.randomUUID().toString();
+        //ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
+        //confirmationTokenService.saveConfirmationToken(confirmationToken);
+        //String link = "http://localhost:8080/registration/confirm?token=" + token;
         UserDetail userDetail = new UserDetail(
                 123,
                 "",
@@ -120,6 +132,32 @@ public class UserService implements UserDetailsService {
         if(!tokenDB.isEmpty()){
             confirmationTokenRepository.deleteById(tokenDB.get().getId());
         }
+
+        List<Interest> interestsDB = interestRepository.findAllByUserId(userDB.get().getId());
+        if(!interestsDB.isEmpty()){
+            for(Interest interest: interestsDB){
+                interestRepository.deleteById(interest.getId());
+            }
+        }
+
+        List<Post> postDB = postRepository.findAllByUserId(userDB.get().getId());
+        if(!postDB.isEmpty()){
+            for(Post post: postDB) {
+                interestsDB = interestRepository.findAllByPostId(post.getId());
+                if(!interestsDB.isEmpty()){
+                    for(Interest interest: interestsDB){
+                        interestRepository.deleteById(interest.getId());
+                    }
+                }
+                postRepository.deleteById(post.getId());
+            }
+        }
+
+        Optional<UserDetail> userDetailsDB = userDetailRepository.findByUserId(userDB.get().getId());
+        if(!userDetailsDB.isEmpty()){
+           userDetailRepository.deleteById(userDetailsDB.get().getId());
+        }
+
         userRepository.deleteById(userDB.get().getId());
         return ResponseEntity.ok().build();
     }
@@ -129,7 +167,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
 
-    //uwaga na tranzkacje
     @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService

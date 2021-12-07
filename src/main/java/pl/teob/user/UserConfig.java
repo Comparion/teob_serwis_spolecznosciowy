@@ -118,7 +118,7 @@ public class UserConfig {
             UserDetail userDetail1 = new UserDetail(
                     12,
                     "Patryk",
-                    "Banan",
+                    "Kowalski",
                     null,
                     "sport",
                     "jestem Patryk",
