@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import pl.teob.comment.Comment;
+import pl.teob.comment.CommentRepository;
 import pl.teob.detail.UserDetail;
 import pl.teob.detail.UserDetailRepository;
 import pl.teob.interest.Interest;
@@ -30,6 +32,7 @@ public class UserConfig {
     private final PostRepository postRepository;
     private final UserDetailRepository userDetailRepository;
     private final InterestRepository interestRepository;
+    private final CommentRepository commentRepository;
 
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository){
@@ -183,6 +186,31 @@ public class UserConfig {
             );
 
             interestRepository.saveAll(List.of(interest1,interest2, interest3));
+
+            Comment comment1 = new Comment(
+                    "jestem zainteresowany",
+                    post1,
+                    user2
+            );
+
+            Comment comment2 = new Comment(
+                    "fajny pomysł",
+                    post1,
+                    user3
+            );
+
+            Comment comment3 = new Comment(
+                    "prosze sie odezwac",
+                    post1,
+                    user3
+            );
+            Comment comment4 = new Comment(
+                    "ciekawe",
+                    post2,
+                    user3
+            );
+
+            commentRepository.saveAll(List.of(comment1, comment2, comment3, comment4));
 
         };
     }
