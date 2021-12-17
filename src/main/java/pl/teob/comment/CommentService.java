@@ -70,4 +70,9 @@ public class CommentService {
         }
         return ResponseEntity.ok(objectMapper.writeValueAsString(commentDTOS));
     }
+
+    public ResponseEntity deleteComment(long idComment) {
+        commentRepository.deleteById(idComment);
+        return ResponseEntity.ok("ok");
+    }
 }
