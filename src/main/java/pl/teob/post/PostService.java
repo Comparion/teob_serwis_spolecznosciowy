@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.teob.comment.CommentRepository;
 import pl.teob.interest.Interest;
 import pl.teob.interest.InterestDTO;
 import pl.teob.interest.InterestMapper;
@@ -31,11 +32,14 @@ public class PostService {
 
     private final ObjectMapper objectMapper;
 
+    private final CommentRepository commentRepository;
+
     @Autowired
-    public PostService(PostRepository postRepository, UserRepository userRepository,InterestRepository interestRepository ,ObjectMapper objectMapper) {
+    public PostService(PostRepository postRepository, UserRepository userRepository,InterestRepository interestRepository, CommentRepository commentRepository,ObjectMapper objectMapper) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.interestRepository = interestRepository;
+        this.commentRepository = commentRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -71,29 +75,31 @@ public class PostService {
         List<Interest> interests;
         boolean interestUser;
         int countInterests = 0;
+        int countComments = 0;
         for (Post post : posts) {
             countInterests = interestRepository.countByPostId(post.getId());
+            countComments = commentRepository.countByPostId(post.getId());
 //            List<InterestDTO> interestDTOs = new ArrayList<>();
             interests = interestRepository.findAllByPostId(post.getId());
 //            for(Interest interest : interests){
 //                interestDTOs.add(InterestMapper.InterestToInterestDTO(interest));
 //            }
-            interestUser = false;;
+            interestUser = false;
             for(Interest interest : interests){
                 if(interest.getUser().getUsername().equals(username))
                     interestUser = true;
             }
             if (town != null && subject != null) {
                 if (post.getTown().equalsIgnoreCase(town) && post.getSubject().equalsIgnoreCase(subject))
-                    postDTOs.add(PostMapper.PostToPostDTO(post, countInterests, interestUser));
+                    postDTOs.add(PostMapper.PostToPostDTO(post, countInterests, interestUser, countComments));
             } else if (town != null) {
                 if (post.getTown().equalsIgnoreCase(town))
-                    postDTOs.add(PostMapper.PostToPostDTO(post, countInterests, interestUser));
+                    postDTOs.add(PostMapper.PostToPostDTO(post, countInterests, interestUser, countComments));
             } else if (subject != null) {
                 if (post.getSubject().equalsIgnoreCase(subject))
-                    postDTOs.add(PostMapper.PostToPostDTO(post, countInterests, interestUser));
+                    postDTOs.add(PostMapper.PostToPostDTO(post, countInterests, interestUser, countComments));
             } else
-                postDTOs.add(PostMapper.PostToPostDTO(post, countInterests, interestUser));
+                postDTOs.add(PostMapper.PostToPostDTO(post, countInterests, interestUser, countComments));
         }
         Collections.reverse(postDTOs);
         return ResponseEntity.ok(objectMapper.writeValueAsString(postDTOs));

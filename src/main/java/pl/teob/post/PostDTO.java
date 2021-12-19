@@ -18,5 +18,6 @@ public class PostDTO {
     private String subject;
     //private List<InterestDTO> interests;
     private long interests;
+    private long comments;
     private boolean interestUser;
 }
