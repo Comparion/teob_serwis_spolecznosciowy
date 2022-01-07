@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.teob.comment.Comment;
+import pl.teob.comment.CommentRepository;
 import pl.teob.detail.UserDetail;
 import pl.teob.detail.UserDetailRepository;
 import pl.teob.email.EmailSender;
@@ -54,6 +56,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private final InterestRepository interestRepository;
+
+    @Autowired
+    private final CommentRepository commentRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
@@ -140,6 +145,13 @@ public class UserService implements UserDetailsService {
             }
         }
 
+        List<Comment> commentsDB = commentRepository.findAllByUserId(userDB.get().getId());
+        if(!commentsDB.isEmpty()){
+            for(Comment comment: commentsDB){
+                commentRepository.deleteById(comment.getId());
+            }
+        }
+
         List<Post> postDB = postRepository.findAllByUserId(userDB.get().getId());
         if(!postDB.isEmpty()){
             for(Post post: postDB) {
@@ -147,6 +159,12 @@ public class UserService implements UserDetailsService {
                 if(!interestsDB.isEmpty()){
                     for(Interest interest: interestsDB){
                         interestRepository.deleteById(interest.getId());
+                    }
+                }
+                commentsDB = commentRepository.findAllByPostId(post.getId());
+                if(!commentsDB.isEmpty()){
+                    for(Comment comment: commentsDB){
+                        commentRepository.deleteById(comment.getId());
                     }
                 }
                 postRepository.deleteById(post.getId());
