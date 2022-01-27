@@ -6,14 +6,6 @@ import pl.teob.user.User;
 
 import javax.persistence.*;
 
-//@Getter
-//@Setter
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@RequiredArgsConstructor
-//@Entity
-//@ToString
-
 @Getter
 @Setter
 @AllArgsConstructor

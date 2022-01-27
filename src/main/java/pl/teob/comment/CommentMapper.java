@@ -1,8 +1,6 @@
 package pl.teob.comment;
 
 import pl.teob.detail.UserDetail;
-import pl.teob.interest.Interest;
-import pl.teob.interest.InterestDTO;
 
 public class CommentMapper {
     public static CommentDTO CommentToCommentDTO(Comment comment, UserDetail userDetail){

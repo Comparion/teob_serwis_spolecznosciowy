@@ -12,15 +12,6 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//@Entity
-//@Table(name = "user_detail")
-//@Getter
-//@Setter
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@RequiredArgsConstructor
-//@EqualsAndHashCode
-//@ToString
 public class UserDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +23,7 @@ public class UserDetail {
     private String description;
     private String profilePhotoURL;
     @NonNull
-    @ManyToOne
+    @OneToOne
     @JoinColumn(nullable = false, name="users_id")
     private User user;
 

@@ -1,9 +1,6 @@
 package pl.teob.post;
 
 import lombok.*;
-import pl.teob.interest.InterestDTO;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -16,7 +13,6 @@ public class PostDTO {
     private String body;
     private String town;
     private String subject;
-    //private List<InterestDTO> interests;
     private long interests;
     private long comments;
     private boolean interestUser;

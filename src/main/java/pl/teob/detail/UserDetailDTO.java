@@ -2,8 +2,6 @@ package pl.teob.detail;
 
 import lombok.*;
 
-import javax.persistence.*;
-
 @Getter
 @Setter
 @Builder

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.teob.detail.UserDetail;
 import pl.teob.detail.UserDetailRepository;
 import pl.teob.post.Post;
 import pl.teob.post.PostRepository;
@@ -55,9 +54,6 @@ public class InterestService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        //Optional<Interest> interestFromDB = Optional.ofNullable(interestRepository.findByPostUser(postFromDB.get().getId(), userFromDB.get().getId()));
-        //Optional<Interest> interestFromDB = interestRepository.findByUserId(userFromDB.get().getId());
-        //Optional<Interest> interestFromDB = interestRepository.findByPostId(postFromDB.get().getId());
         Optional<Interest> interestFromDB = interestRepository.findAllByPostIdAndUserId(postFromDB.get().getId(), userFromDB.get().getId());
 
         if(interestFromDB.isEmpty()){
@@ -68,10 +64,6 @@ public class InterestService {
             interestRepository.deleteById(interestFromDB.get().getId());
             return ResponseEntity.ok("delete");
         }
-
-
-
-
     }
 
     public ResponseEntity getInterests(long idPost) throws JsonProcessingException {

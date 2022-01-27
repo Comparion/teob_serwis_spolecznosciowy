@@ -1,7 +1,6 @@
 package pl.teob.user;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,6 @@ import pl.teob.interest.Interest;
 import pl.teob.interest.InterestRepository;
 import pl.teob.post.Post;
 import pl.teob.post.PostRepository;
-import pl.teob.post.PostService;
 import pl.teob.user.token.ConfirmationToken;
 import pl.teob.user.token.ConfirmationTokenService;
 

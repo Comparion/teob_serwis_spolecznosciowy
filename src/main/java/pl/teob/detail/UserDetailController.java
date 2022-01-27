@@ -16,12 +16,9 @@ public class UserDetailController {
         this.userDetailService = userDetailService;
     }
 
-    //@CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/detail")
     public ResponseEntity addDetailUser(@RequestBody UserDetailDTO userDetailDTO){
-        //final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-        final String currentUserName = "patryk";
-        return userDetailService.addDetailUser(Optional.ofNullable(userDetailDTO), currentUserName);
+        return userDetailService.addDetailUser(Optional.ofNullable(userDetailDTO));
     }
 
     @GetMapping("/finduser")

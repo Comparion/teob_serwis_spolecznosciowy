@@ -3,17 +3,12 @@ package pl.teob.detail;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.teob.post.Post;
-import pl.teob.post.PostDTO;
-import pl.teob.post.PostMapper;
 import pl.teob.user.User;
 import pl.teob.user.UserRepository;
-import pl.teob.user.token.ConfirmationToken;
 
 import java.util.*;
 
@@ -30,8 +25,8 @@ public class UserDetailService {
     @Autowired
     UserDetailRepository userDetailRepository;
 
-    public ResponseEntity addDetailUser(Optional<UserDetailDTO> userDetailDTO, String currentUserName) {
-        Optional<User> userDB = userRepository.findByUsername(currentUserName);
+    public ResponseEntity addDetailUser(Optional<UserDetailDTO> userDetailDTO) {
+        Optional<User> userDB = userRepository.findByUsername(userDetailDTO.get().getUsername());
         if(userDB.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -42,9 +37,6 @@ public class UserDetailService {
 
         UserDetail userDetail = new UserDetail();
         userDetail.setUser(userDB.get());
-
-        // TODO: zabezpieczenie aby użytkownik mógł tylko modyfikowac dane w bazie, a nie dodawac kolejnego rekordu
-        // TODO: dodawanie i edycja szczegółów powinna wykonywać się najprawdpoobniej w jendym miesjcu
 
         if(!Objects.isNull(userDetailDTO.get().getFirstName())){
             userDetail.setFirstName(userDetailDTO.get().getFirstName());
@@ -105,11 +97,7 @@ public class UserDetailService {
             userDetailDB.get().setProfilePhotoURL("");
         }
 
-        //userDetailRepository.save(userDetailDB);
-
         userDetailRepository.updateUserDetailById(userDetailDTO.get().getFirstName(),userDetailDTO.get().getSecondName(),userDetailDTO.get().getNumberPhone(),userDetailDTO.get().getInterests(),userDetailDTO.get().getDescription(),userDetailDTO.get().getProfilePhotoURL(),userDetailDB.get().getId());
-        //userDetailRepository.updateUserDetailById(userDetailDTO.get().getFirstName(),userDetailDTO.get().getProfilePhotoURL(), userDetailDTO.get().getSecondName(), userDetailDB.get().getId());
-
 
         return ResponseEntity.ok("ok");
     }
