@@ -5,6 +5,7 @@ import pl.portalmylove.mylove.user.User;
 
 import javax.persistence.*;
 
+/**Tworzonie encji reprezentujacej klase Post. Bedzie ona odwzorowywac tabele w bazie danych.  */
 @Getter
 @Setter
 @AllArgsConstructor

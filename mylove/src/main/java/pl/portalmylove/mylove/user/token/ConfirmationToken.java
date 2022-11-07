@@ -8,6 +8,7 @@ import pl.portalmylove.mylove.user.User;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**Tworzonie encji reprezentujacej klase ConfirmationToken. Bedzie ona odwzorowywac tabele w bazie danych.  */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.portalmylove.mylove.detail.UserDetail;
 import pl.portalmylove.mylove.user.User;
 import pl.portalmylove.mylove.user.UserRepository;
 
 import java.util.*;
 
+/** Klasa odpowiedzialna za logike biznesowa */
 @Service
 public class PostService {
     private final PostRepository postRepository;
@@ -28,6 +28,7 @@ public class PostService {
         this.objectMapper = objectMapper;
     }
 
+    /** Funkcja dodajaca post do portalu */
     public ResponseEntity addPost(PostDTO postDTO){
         Optional<User> userFromDB =  userRepository.findByUsername(postDTO.getUsername());
         if(userFromDB.isEmpty()){
@@ -42,6 +43,7 @@ public class PostService {
         return ResponseEntity.ok("ok");
     }
 
+    /** Funkcja pobierajaca wszystkie posty, w celu ich wyswietlenia */
     public ResponseEntity getPosts(String username,String town, String subject) throws JsonProcessingException {
         List<Post> posts = postRepository.findAll();
         List<PostDTO> postDTOs = new ArrayList<>();
@@ -64,7 +66,7 @@ public class PostService {
         Collections.reverse(postDTOs);
         return ResponseEntity.ok(objectMapper.writeValueAsString(postDTOs));
     }
-
+    /** Funkcja aktualizucajca post */
     public ResponseEntity updatePost(Optional<PostDTO> postDTO) {
         Optional<Post> postDB = postRepository.findById(postDTO.get().getId());
         if(postDB.isEmpty()){

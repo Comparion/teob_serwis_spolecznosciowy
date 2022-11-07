@@ -2,6 +2,8 @@ package pl.portalmylove.mylove.post;
 
 import lombok.*;
 
+/**Klasa ktora pozwala przesylac na frontend obiekty, ktore nie zawieraja w sobie nadmiarowych danych lub takich, ktore moglyby zagrazac bezpieczenstwu */
+
 @Getter
 @Setter
 @Builder

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/** Klasa odpowiedzialna za logike biznesowa */
 @Service
 @AllArgsConstructor
 public class UserDetailService {
@@ -28,6 +29,7 @@ public class UserDetailService {
     @Autowired
     UserDetailRepository userDetailRepository;
 
+    /**Sluzy do dodania domyslnych szczegolow uzytkownikowi  przy rejestracji  */
     public ResponseEntity addDetailUser(Optional<UserDetailDTO> userDetailDTO) {
         Optional<User> userDB = userRepository.findByUsername(userDetailDTO.get().getUsername());
         if(userDB.isEmpty()){
@@ -65,6 +67,7 @@ public class UserDetailService {
         return ResponseEntity.ok(userDetail);
     }
 
+    /**Funkcja przyjmujaca dwa parametry, pierwszym z nich jest obiekt userDetailDTO, drugim String z nazwa uzytkownika chcacego zaktualizowac swoje szczegoly. Przed aktualizacja sa pobierane dane z tabeli user oraz user_detial */
     public ResponseEntity updateDetailUser(Optional<UserDetailDTO> userDetailDTO, String username) {
         Optional<User> userDB = userRepository.findByUsername(username);
         if(userDB.isEmpty()){
@@ -105,6 +108,7 @@ public class UserDetailService {
         return ResponseEntity.ok("ok");
     }
 
+    /**Metoda przyjmujaca Parametr String z nazwa uzytkownika. Pobrane szczegoly sz zwracane na przegladarke w odpowiedzi */
     public ResponseEntity getDetail(String username) throws JsonProcessingException {
         Optional<User> userDB = userRepository.findByUsername(username);
         if(userDB.isEmpty()){
@@ -117,6 +121,7 @@ public class UserDetailService {
         return ResponseEntity.ok(objectMapper.writeValueAsString(UserDetailMapper.userDetailtoDTO(userDetailDB.get())));
     }
 
+    /** Funkcja przyjmuje 3 argumenty: imia, nazwisko oraz nazwa uzytkownika, majace na celu od flirtowania odpowiedzi zwracanej na frontend */
     public ResponseEntity findUsers(String likes, String username) throws JsonProcessingException {
         String regex = "[\\s,]+";
         List<UserDetail> userDetails;
@@ -143,8 +148,7 @@ public class UserDetailService {
                      }
                  }
              }
-//                if (userDetail.getLikes().toLowerCase().contains(likes.toLowerCase()))
-//                    userDetailDTOS.add(UserDetailMapper.userDetailtoDTO(userDetail));
+
             } else
                 userDetailDTOS.add(UserDetailMapper.userDetailtoDTO(userDetail));
         }
@@ -152,6 +156,7 @@ public class UserDetailService {
         return ResponseEntity.ok(objectMapper.writeValueAsString(userDetailDTOS));
     }
 
+    /** Funkcja przyjmuje 1 argument: nazwa uzytkownika, majaca na celu wyszukania uzytkownikow zgodnymi z upodobaniami uzytkownika zalogowanego*/
     public ResponseEntity suggestionsUsers(String username) throws JsonProcessingException {
         List<UserDetail> userDetails;
         String regex = "[\\s,]+";
@@ -169,16 +174,6 @@ public class UserDetailService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-//        switch(userDetailDB.get().getGender()){
-//            case 'M':
-//                gender='K';
-//                break;
-//            case 'K':
-//                gender='M';
-//                break;
-//            case ' ':
-//                break;
-//        }
 
         userDetails = userDetailRepository.findByGender(userDetailDB.get().getLookingFor());
 

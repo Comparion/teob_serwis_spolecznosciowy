@@ -8,6 +8,7 @@ import pl.portalmylove.mylove.detail.UserDetailDTO;
 
 import java.util.Optional;
 
+/** Klasa odpowiedzialna za obsluge zadan */
 @RestController
 public class PostController {
     private final PostService postService;

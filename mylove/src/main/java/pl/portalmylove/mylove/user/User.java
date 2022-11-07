@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 
+/**Tworzonie encji reprezentujacej klase User. Bedzie ona odwzorowywac tabele w bazie danych.  */
 @Entity
 @Table(name = "users")
 @Getter
@@ -18,7 +19,6 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @ToString
-
 public class User implements UserDetails {
 
     @Id

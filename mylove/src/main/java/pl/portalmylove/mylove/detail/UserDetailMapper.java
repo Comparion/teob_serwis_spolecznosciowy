@@ -1,5 +1,6 @@
 package pl.portalmylove.mylove.detail;
 
+/** Klasa sluzy do tego, aby w odpowiedni sposob przerobic dane trafiajce do przegladarki*/
 public class UserDetailMapper {
 
     public static UserDetailDTO userDetailtoDTO(UserDetail userDetail){

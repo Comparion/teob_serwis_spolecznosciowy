@@ -1,0 +1,2 @@
+/**Pakiet security zostal stworzony, aby zaimplementowac PasswordEncoder, uzywajacej funkcji haszujacej BCrypt. Natomiast klasa WebSecurityConfig, jest odpowiedzialna za  konfiguracje  ochrony http. */
+package pl.portalmylove.mylove.security;

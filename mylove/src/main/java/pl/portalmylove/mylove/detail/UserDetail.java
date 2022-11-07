@@ -5,13 +5,14 @@ import pl.portalmylove.mylove.user.User;
 
 import javax.persistence.*;
 
-
+/**Tworzonie encji reprezentujaca klase UserDetail. Bedzie ona odwzorowywac tabele w bazie danych.  */
 @Table(name="user_detail")
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class UserDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

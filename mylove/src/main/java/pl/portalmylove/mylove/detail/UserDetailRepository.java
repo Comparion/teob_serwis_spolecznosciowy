@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/** Klasa odpowiedzialna za dostep do bazy danych */
 @Repository
 public interface UserDetailRepository extends JpaRepository<UserDetail, Long> {
     Optional<UserDetail> findByUserId(long idUser);

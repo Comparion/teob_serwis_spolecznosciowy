@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
+/** Klasa odpowiedzialna za obsluge zadan */
 @RestController
 public class UserDetailController {
     private final UserDetailService userDetailService;

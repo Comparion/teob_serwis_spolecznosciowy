@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/** klasa wstrzykujaca przykladowe dane do portalu */
 @AllArgsConstructor
 @Configuration
 public class UserConfig {
@@ -64,7 +65,14 @@ public class UserConfig {
                     AppUserRole.USER
             );
 
-            userRepository.saveAll(List.of(user1,user2,user3,user4, user5));
+            User user6 = new User(
+                    "piter67",
+                    bCryptPasswordEncoder.encode("pio123"),
+                    "piter67@o2.pl",
+                    AppUserRole.USER
+            );
+
+            userRepository.saveAll(List.of(user1,user2,user3,user4, user5, user6));
             String token = UUID.randomUUID().toString();
             ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user2);
             confirmationTokenService.saveConfirmationToken(confirmationToken);
@@ -82,12 +90,6 @@ public class UserConfig {
                     user2
             );
 
-            Post post2 = new Post(
-                    "Czesc, to znowu ja, brunetki też jednak wchodzą w grę!",
-                    "Kielce",
-                    "Rownież brunetki",
-                    user2
-            );
 
             Post post3 = new Post(
                     "Poszukuje dziewczyny z którą mógłby grać w szachy!",
@@ -109,6 +111,15 @@ public class UserConfig {
                     "Wesele",
                     user4
             );
+
+            Post post6 = new Post(
+                    "Poszukuje blondynki z niebieskimi oczami!",
+                    "Kielce",
+                    "Randka",
+                    user6
+            );
+
+
 
             UserDetail userDetail1 = new UserDetail(
                     12,
@@ -162,10 +173,22 @@ public class UserConfig {
                     user4
             );
 
-            //System.out.println(post2.toString());
+            UserDetail userDetail5 = new UserDetail(
+                    1234,
+                    "Piotr",
+                    "Motyka",
+                    "8886655",
+                    "Kobiety, taniec, kino, sport, blondynki",
+                    "Lubie balet",
+                    "https://static.wikia.nocookie.net/tlk/images/1/13/Darica_Lion_07174.jpg/revision/latest/scale-to-width-down/1944?cb=20140507155833&path-prefix=pl",
+                    'M',
+                    'K',
+                    user6
+            );
 
-            postRepository.saveAll(List.of(post1, post2, post3, post4, post5));
-            userDetailRepository.saveAll(List.of(userDetail1, userDetail2, userDetail3, userDetail4));
+
+            postRepository.saveAll(List.of(post1, post3, post4, post5, post6));
+            userDetailRepository.saveAll(List.of(userDetail1, userDetail2, userDetail3, userDetail4, userDetail5));
 
 
         };

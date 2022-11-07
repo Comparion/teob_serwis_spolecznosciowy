@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/** Klasa odpowiedzialna za logike biznesowa */
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
@@ -50,12 +51,13 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
+    /**Zwraca wszystkich uzytkownikow posiadajacych konta w serwisie */
     public ResponseEntity getUsers() throws JsonProcessingException {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(objectMapper.writeValueAsString(users));
     }
 
-
+    /**Funkcja przyjmujaca jeden parametr, jakim jest obiekt User. Jest odpowiedzialna za dodanie/zarejestrowanie uzytkownika, sprawdzajac przed tym czy nie ma już uzytkownika o podanym emailu, lub nazwie, poniewaz musza byc one unikatowe */
     public ResponseEntity addUser(User user){
         Optional<User> userUsernameDB = userRepository.findByUsername(user.getUsername());
         Optional<User> userEmailDB = userRepository.findByEmail(user.getEmail());
@@ -90,11 +92,13 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok("ok");
     }
 
+    /**Funkcja przyjmujaca jeden parametr String. Sluzy ona do porównania czy podany email zgadza sie z regexem, czyli wzorcem opisujacym lancuch symboli, ktory bedzie wymagal w podanym emailu, uzycia symboli jak np.: „@”, ”.”, ktore są wymagane przy ich tworzeniu */
     public static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
 
+    /**Funkcja przyjmujaca jeden parametr jakim jest obiekt User. Sprawdza za pomoca funkcji wrongPassword, czy podane przez uzytkownika haslo, jest identyczne jak to zapisane w bazie danych */
     public ResponseEntity login(User user) {
         Optional<User> userFromDb = userRepository.findByUsername(user.getUsername());
 
@@ -104,11 +108,13 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok("ok");
     }
 
+    /**-  Funkcja przyjmuje dwa parametry, jakimi sa obiekty User. Ta metoda jest odpowiedzialna za sprawdzenie poprawność hasel */
     private boolean wrongPassword(Optional<User> userFromDb, User user) {
         return bCryptPasswordEncoder.matches(user.getPassword(),userFromDb.get().getPassword());
 
     }
 
+    /** Funkcja ta za parametr przyjmuje String jakim jest nazwa uzytkownika.  Oprocz samego uzytkownika usuwa równiez dane powizzane z nim z innych tabel*/
     public ResponseEntity deleteUser(String username) {
         Optional<User> userDB = userRepository.findByUsername(username);
         if(userDB.isEmpty()){
@@ -135,11 +141,13 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok().build();
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
 
+    /** Funkcja, ktora aktywuje konto, domyslnie jest wlaczona dla wszystkich uzytkownikow*/
     @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService

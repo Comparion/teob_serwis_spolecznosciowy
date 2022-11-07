@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/** Klasa odpowiedzialna za dostep do bazy danych */
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByUserId(long id);

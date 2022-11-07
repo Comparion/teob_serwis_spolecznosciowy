@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/** Klasa odpowiedzialna za logike biznesowa */
 @Service
 @AllArgsConstructor
 public class ConfirmationTokenService {
